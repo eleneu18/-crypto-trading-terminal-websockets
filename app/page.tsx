@@ -24,6 +24,10 @@ const page = async () => {
     dex_pair_format: "symbol"
   })
 
+  const trendingCoins = await fetcher<{ coins: TrendingCoin[]}>("search/trending", undefined, 300)
+
+  console.log("trendingCoins", trendingCoins)
+
   return (
     <main className="main-container">
       <section className="home-grid">
