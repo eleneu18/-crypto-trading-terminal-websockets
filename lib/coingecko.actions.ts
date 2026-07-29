@@ -13,9 +13,10 @@ export async function fetcher<T>(
   params?: QueryParams,
   revalidate = 60,
 ): Promise<T> {
+  const normalizedEndpoint = endpoint.replace(/^\/+/, '');
   const url = qs.stringifyUrl(
     {
-      url: `${BASE_URL}/${endpoint}`,
+      url: `${BASE_URL?.replace(/\/+$/, '')}/${normalizedEndpoint}`,
       query: params,
     },
     { skipEmptyString: true, skipNull: true },
@@ -23,7 +24,7 @@ export async function fetcher<T>(
 
   const response = await fetch(url, {
     headers: {
-      'x-cg-pro-api-key': API_KEY,
+      'x-cg-demo-api-ke': API_KEY,
       'Content-Type': 'application/json',
     } as Record<string, string>,
     next: { revalidate },

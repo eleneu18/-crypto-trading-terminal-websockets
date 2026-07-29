@@ -7,9 +7,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { fetcher } from "@/lib/coingecko.actions"
 
 const columns = [
-  
+
 ]
 
 const coins = [
@@ -18,17 +19,21 @@ const coins = [
 ]
 
 
-const page = () => {
+const page = async () => {
+  const coin = await fetcher<CoinDetailsData>("coins/bitcoin", {
+    dex_pair_format: "symbol"
+  })
+
   return (
     <main className="main-container">
       <section className="home-grid">
         <div id="coin-overview">
           <div className="header pt-2">
-            <Image src="https://assets.coingecko.com/coins/images/1/large/bitcoin.png" alt="Bitcoin" width={56} height={56} />
+            <Image src={coin.image.large} alt={coin.name} width={56} height={56} />
             
             <div className="info">
-              <p>Bitcoin / BTC</p>
-              <h1>$123</h1>
+              <p>{coin.name} / {coin.symbol}</p>
+              <h1>${coin.market_data.current_price.usd.toFixed(2)}</h1>
             </div>
           </div>
         </div>
