@@ -9,7 +9,16 @@ import {
 } from "@/components/ui/table"
 
 const TrendingCoins = async() => {
-      const trendingCoins = await fetcher<{ coins: TrendingCoin[]}>("search/trending", undefined, 300)
+  let trendingCoins: { coins: TrendingCoin[] }
+
+  try {
+    trendingCoins = await fetcher<{ coins: TrendingCoin[] }>("search/trending", undefined, 300)
+  } catch (error) {
+    console.error("Failed to fetch trending coins:", error)
+
+    return <div id="trending-coins">Unable to load trending coins.</div>
+  }
+
   return (
     <div id="trending-coins">
       <h4>Trending Coins</h4>
